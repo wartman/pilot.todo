@@ -1,0 +1,19 @@
+-lib pilot
+-lib pilot.cargo
+
+-cp src
+
+-D analyzer-optimize
+
+-main TodoApp
+
+--each
+
+-js dist/app.js
+
+--next
+
+-D pilot-skip
+-D pilot-cargo-constant
+
+-php dist/lib

@@ -1,0 +1,4 @@
+-D pilot.cargo=0.0.0
+# @install: lix --silent download "gh://github.com/wartman/pilot.cargo#39ddc0856905b274444b17690e20e10e4a45c5d5" into pilot.cargo/0.0.0/github/39ddc0856905b274444b17690e20e10e4a45c5d5
+-lib tink_state
+-cp ${HAXE_LIBCACHE}/pilot.cargo/0.0.0/github/39ddc0856905b274444b17690e20e10e4a45c5d5/src
