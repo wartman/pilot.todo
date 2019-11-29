@@ -1,6 +1,6 @@
 package todo.ui;
 
-import pilot.RealNode;
+import pilot.Node;
 import pilot.Component;
 
 class TodoInput extends Component {
@@ -10,6 +10,7 @@ class TodoInput extends Component {
   @:attribute var value:String;
   @:attribute var save:(value:String)->Void;
   @:attribute var requestClose:()->Void = null;
+  var ref:Node;
 
   override function render() {
     return html(
@@ -40,7 +41,8 @@ class TodoInput extends Component {
         }
 
       }>
-        <input 
+        <input
+          @ref={node -> ref = node}
           class={inputClass}
           value={value}
           placeholder={placeholder}
@@ -68,7 +70,7 @@ class TodoInput extends Component {
 
     @:effect(guard = requestClose != null)
     function setupListener() {
-      var el:js.html.InputElement = cast getRealNode();
+      var el:js.html.InputElement = cast ref.toElement();
       el.focus();
       js.Browser.window.addEventListener('click', clickOff);
     }
