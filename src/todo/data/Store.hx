@@ -18,6 +18,13 @@ class Store implements Model {
   }
   @:computed var allCompleted:Bool = remainingTodos == 0;
 
+  public function getTodoById(id:Int):Todo {
+    for (todo in todos) {
+      if (todo.id == id) return todo;
+    }
+    return null;
+  }
+
   @:transition
   public function addTodo(todo:Todo) {
     return {

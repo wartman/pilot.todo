@@ -8,13 +8,17 @@ import tink.http.Handler;
 import tink.http.containers.*;
 import tink.web.routing.*;
 import capsule.Module;
-import todo.web.FrontController;
+import todo.web.*;
 
 class WebModule implements Module {
 
   @:provide
   @:share
   var _:FrontController;
+
+  @:provide
+  @:share
+  var _:ApiController;
 
   @:provide
   @:share

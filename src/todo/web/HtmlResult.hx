@@ -4,7 +4,7 @@ import pilot.VNode;
 import pilot.Root;
 import tink.http.Response;
 import todo.data.Store;
-import todo.data.Loader;
+import todo.data.Res;
 
 using haxe.Json;
 
@@ -21,8 +21,8 @@ abstract HtmlResult(OutgoingResponse) to OutgoingResponse {
         <head>
           <title>todos</title>
           <link href="assets/app.css" rel="stylesheet" />
-          <script id="${Loader.DATA_NAME}">
-            window.${Loader.DATA_NAME} = ${store.toJson().stringify()}
+          <script id="${Res.DATA_NAME}">
+            window.${Res.DATA_NAME} = ${store.toJson().stringify()}
           </script>
         </head>
 

@@ -12,6 +12,10 @@ class FrontController {
     this.store = store;
   }
 
+  @:inject
+  @:sub('api/v1')
+  public var api:ApiController;
+
   @:get('/')
   public function index():OutgoingResponse {
     return new HtmlResult(Pilot.html(
