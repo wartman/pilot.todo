@@ -61,7 +61,7 @@ class TodoInput extends Component {
     );
   }
 
-  #if js
+  #if (js && !nodejs)
 
     function clickOff(_) {
       js.Browser.window.removeEventListener('click', clickOff);

@@ -4,7 +4,7 @@ import pilot.cargo.ReactiveComponent;
 import todo.data.Store;
 
 class App extends ReactiveComponent {
-  
+
   @:attribute(inject = StoreProvider.ID) var store:Store;
   @:style(global = true) var root = '
 

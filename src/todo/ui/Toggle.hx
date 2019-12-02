@@ -9,7 +9,7 @@ abstract Toggle(VNode) to VNode {
     checked:Bool,
     // type:ToggleType,
     ?id:String,
-    #if js
+    #if (js && !nodejs)
       onClick:(e:js.html.Event)->Void
     #end
   }) {

@@ -1,19 +1,27 @@
 -lib pilot
 -lib pilot.cargo
+-lib capsule
 
 -cp src
 
+-dce full
 -D analyzer-optimize
+-D todo-data-name=TODO_DATA
 
 -main TodoApp
 
 --each
 
--js dist/app.js
+-D pilot-skip
+-js dist/assets/app.js
 
 --next
 
--D pilot-skip
+-D pilot-output=assets/app.css
 -D pilot-cargo-constant
 
--php dist/lib
+-lib hxnodejs
+-lib tink_web
+-lib tink_http_middleware
+
+-js dist/index.js

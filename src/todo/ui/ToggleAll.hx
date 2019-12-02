@@ -8,7 +8,7 @@ abstract ToggleAll(VNode) to VNode {
   public function new(props:{
     checked:Bool,
     ?id:String,
-    #if js
+    #if (js && !nodejs)
       onClick:(e:js.html.Event)->Void
     #end
   }) {
