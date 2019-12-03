@@ -1,12 +1,18 @@
 package todo.ui;
 
 import pilot.Component;
+#if !nodejs
+  import todo.client.TodoApi;
+#end
 import todo.data.*;
 
 class TodoItem extends Component {
   
   @:attribute var todo:Todo;
-  @:attribute(inject = StoreProvider.ID) var store:Store;
+  // @:attribute(inject = StoreProvider.ID) var store:Store;
+  #if !nodejs
+    @:attribute(inject = ApiProvider.ID) var api:TodoApi;
+  #end
   @:attribute(mutable = true) var editing:Bool = false;
   @:style var root = '
     position: relative;
@@ -83,6 +89,9 @@ class TodoItem extends Component {
           requestClose={ () -> editing = false }
           save={value -> {
             todo.content = value;
+            #if !nodejs
+              api.update(todo);
+            #end
             editing = false;
           }}
         />
@@ -105,7 +114,7 @@ class TodoItem extends Component {
         <label>{todo.content}</label>
         <button
           class="destroy"
-          onClick={_ -> store.removeTodo(todo)}
+          onClick={_ -> api.remove(todo)}
         ></button>
       </li>
     </if>

@@ -65,7 +65,7 @@ class App extends ReactiveComponent {
       }
 
     }>
-      <SiteHeader store={store} />
+      <SiteHeader />
       <if {store.todos.length > 0}>
         <TodoList store={store} todos={store.visibleTodos} />
         <SiteFooter store={store} />

@@ -6,7 +6,9 @@ An example of how this silly thing ([Pilot](https://github.com/wartman/pilot)) m
 Other Stuff
 -----------
 
-This example shows how Pilot can be used on both the client and the server with minimal configuration. It's not quite there yet -- I'm planning on adding some simple storage functionality -- but you can get the idea from looking at the structure of the app.
+This example shows how Pilot can be used on both the client and the server with minimal configuration.
+
+Right now it *sorta* works -- todos will be persisted in a json file between updates -- but there is a lot of messyness.
 
 Other libraries used:
 

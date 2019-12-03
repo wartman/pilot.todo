@@ -1,6 +1,7 @@
 -lib pilot
 -lib pilot.cargo
 -lib capsule
+-lib tink_web
 
 -cp src
 
@@ -21,7 +22,6 @@
 -D pilot-cargo-constant
 
 -lib hxnodejs
--lib tink_web
 -lib tink_http_middleware
 
 -js dist/index.js

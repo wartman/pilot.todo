@@ -1,24 +1,22 @@
 package todo.module;
 
 import tink.http.Middleware;
-import todo.data.Store;
 import tink.http.Container;
 import tink.http.Response;
 import tink.http.Handler;
 import tink.http.containers.*;
 import tink.web.routing.*;
 import capsule.Module;
+import todo.data.*;
 import todo.web.*;
 
 class WebModule implements Module {
 
   @:provide
   @:share
-  var _:FrontController;
-
-  @:provide
-  @:share
-  var _:ApiController;
+  function _(store:Store):Root {
+    return new FrontController(store);
+  }
 
   @:provide
   @:share
@@ -28,8 +26,8 @@ class WebModule implements Module {
 
   @:provide
   @:share
-  function _(controller:FrontController):Handler {
-    var router = new Router<FrontController>(controller);
+  function _(controller:Root):Handler {
+    var router = new Router<Root>(controller);
     return req -> router.route(Context.ofRequest(req))
         .recover(OutgoingResponse.reportError);
   }

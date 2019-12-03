@@ -2,6 +2,9 @@ import capsule.Container;
 import todo.data.Store;
 import todo.ui.*;
 import todo.module.*;
+#if !nodejs
+  import todo.client.TodoApi;
+#end
 
 class TodoApp {
 
@@ -23,17 +26,23 @@ class TodoApp {
   }
 
   #else
-  static function main() {
-    var container = new Container();
-    container.use(new DataModule());
-    var store = container.get(Store);
-    Pilot.mount(
-      Pilot.dom.getElementById('root'),
-      Pilot.html(<StoreProvider store={store}>
-        <App />
-      </StoreProvider>)
-    );
-  }
+
+    static function main() {
+      var container = new Container();
+      container.use(new DataModule());
+      container.use(new ClientModule());
+      var store = container.get(Store);
+      var api = container.get(TodoApi);
+      Pilot.mount(
+        Pilot.dom.getElementById('root'),
+        Pilot.html(<StoreProvider store={store}>
+          <ApiProvider api={api}>
+            <App />
+          </ApiProvider>
+        </StoreProvider>)
+      );
+    }
+    
   #end
 
 }
