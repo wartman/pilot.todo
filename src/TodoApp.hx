@@ -34,7 +34,7 @@ class TodoApp {
       var store = container.get(Store);
       var api = container.get(TodoApi);
       Pilot.mount(
-        Pilot.dom.getElementById('root'),
+        Pilot.document.getElementById('root'),
         Pilot.html(<StoreProvider store={store}>
           <ApiProvider api={api}>
             <App />

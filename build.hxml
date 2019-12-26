@@ -13,12 +13,12 @@
 
 --each
 
--D pilot-skip
+-D pilot-css-skip
 -js dist/assets/app.js
 
 --next
 
--D pilot-output=assets/app.css
+-D pilot-css-output=assets/app.css
 -D pilot-cargo-constant
 
 -lib hxnodejs

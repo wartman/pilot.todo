@@ -11,9 +11,12 @@ using haxe.Json;
 abstract HtmlResult(OutgoingResponse) to OutgoingResponse {
 
   public inline function new(vNode:VNode, store:Store) {
-    var node = Pilot.dom.getElementById('root');
+    var node = Pilot.document.createElement('div');
+    node.setAttribute('id', 'root');
+    
     var root = new Root(node);
     root.update(vNode);
+
     this = OutgoingResponse.blob('
       <!DOCTYPE html>
       <html>

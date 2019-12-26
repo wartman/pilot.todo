@@ -77,8 +77,8 @@ class TodoItem extends Component {
     }
   ';
 
-  override function render() return html(
-    <if {editing}>
+  override function render() return html(<>
+    @if (editing) {
       <li 
         id={Std.string(todo.id)} 
         key={todo}
@@ -95,8 +95,8 @@ class TodoItem extends Component {
             editing = false;
           }}
         />
-      </li>
-    <else>
+      </li>;
+    } else {
       <li 
         id={Std.string(todo.id)}
         onDblClick={e -> {
@@ -114,10 +114,16 @@ class TodoItem extends Component {
         <label>{todo.content}</label>
         <button
           class="destroy"
-          onClick={_ -> api.remove(todo)}
+          onClick={_ -> {
+            #if (!nodejs)
+              api.remove(todo);
+            #else
+              null;
+            #end
+          }}
         ></button>
-      </li>
-    </if>
-  );
+      </li>;
+    }
+  </>);
 
 }

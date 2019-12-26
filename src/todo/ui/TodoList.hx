@@ -30,15 +30,15 @@ class TodoList extends Component {
         padding: 0;
         list-style: none;
       }>
-        <for {todo in todos}>
+        @for (todo in todos) {
           // note that we don't pass `store` here: instead,
           // it's injected for us by `<StoreProvider /> in a 
           // parent component.
           //
           // This is generally a bad idea, but just for illustration
           // purposes.
-          <TodoItem todo={todo} /> 
-        </for>
+          <TodoItem todo={todo} />; 
+        }
       </ul>
     </div>
   );

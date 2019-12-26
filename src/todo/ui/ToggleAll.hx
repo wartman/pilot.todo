@@ -1,6 +1,7 @@
 package todo.ui;
 
 import pilot.VNode;
+import pilot.dom.Event;
 import Pilot.html;
 
 abstract ToggleAll(VNode) to VNode {
@@ -8,9 +9,7 @@ abstract ToggleAll(VNode) to VNode {
   public function new(props:{
     checked:Bool,
     ?id:String,
-    #if (js && !nodejs)
-      onClick:(e:js.html.Event)->Void
-    #end
+    onClick:(e:Event)->Void
   }) {
     this = html(<input
       type="checkbox"
