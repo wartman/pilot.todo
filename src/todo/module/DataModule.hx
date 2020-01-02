@@ -1,14 +1,16 @@
 package todo.module;
 
-import capsule.Module;
+import capsule.*;
 import todo.data.*;
 
-class DataModule implements Module {
+class DataModule implements ServiceProvider {
   
-  @:provide
-  @:share
-  public function _():Store {
-    return Store.fromJson(Res.get());
+  public function new() {}
+
+  public function register(container:Container) {
+    container.map(Store).toFactory(function () {
+      return Store.fromJson(Res.get());
+    }).asShared();
   }
 
 }
