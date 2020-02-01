@@ -38,4 +38,8 @@ abstract HtmlResult(OutgoingResponse) to OutgoingResponse {
     ', 'text/html');
   }
 
+  @:to public function toResponse():OutgoingResponse {
+    return this;
+  }
+
 }

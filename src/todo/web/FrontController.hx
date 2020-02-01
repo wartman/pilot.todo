@@ -17,7 +17,7 @@ class FrontController implements Root {
       <StoreProvider store={store}>
         <App />
       </StoreProvider>
-    ), store);
+    ), store).toResponse();
   }
 
   public function addTodo(body) {

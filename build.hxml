@@ -8,6 +8,7 @@
 -dce full
 -D analyzer-optimize
 -D todo-data-name=TODO_DATA
+-D js-es=6
 
 -main TodoApp
 
