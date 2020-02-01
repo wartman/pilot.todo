@@ -1,47 +1,41 @@
 package todo.module;
 
+import capsule.ServiceProvider;
+import capsule.Container as DiContainer;
 import tink.http.Middleware;
 import tink.http.Container;
 import tink.http.Response;
 import tink.http.Handler;
 import tink.http.containers.*;
 import tink.web.routing.*;
-import capsule.Module;
 import todo.data.*;
 import todo.web.*;
 
-class WebModule implements Module {
+class WebModule implements ServiceProvider {
 
-  @:provide
-  @:share
-  function _(store:Store):Root {
-    return new FrontController(store);
-  }
+  public function new() {}
 
-  @:provide
-  @:share
-  function _():Container {
-    return new NodeContainer(8080);
-  }
-
-  @:provide
-  @:share
-  function _(controller:Root):Handler {
-    var router = new Router<Root>(controller);
-    return req -> router.route(Context.ofRequest(req))
+  public function register(container:DiContainer) {
+    container.map(Root).toFactory(function (store:Store) {
+      return new FrontController(store);
+    }).asShared();
+    container.map(Container).toFactory(function () {
+      return new NodeContainer(8080);
+    }).asShared();
+    container.map(Handler).toFactory(function (controller:Root) {
+      var router = new Router<Root>(controller);
+      return req -> router.route(Context.ofRequest(req))
         .recover(OutgoingResponse.reportError);
-  }
-
-  @:provide
-  @:share
-  function _():Array<Middleware> {
-    return [
-      new tink.http.middleware.Static(
-        // todo: make path configurable!
-        haxe.io.Path.join([ Sys.getCwd(), 'dist/assets' ]),
-        'assets'
-      )
-    ];
+    }).asShared();
+    container.map('Array<Middleware>').toFactory(function ():Array<Middleware> {
+      return [
+        new tink.http.middleware.Static(
+          // todo: make path configurable!
+          haxe.io.Path.join([ Sys.getCwd(), 'dist/assets' ]),
+          'assets'
+        )
+      ];
+    }).asShared();
   }
 
 }
