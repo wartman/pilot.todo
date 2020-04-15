@@ -1,16 +1,20 @@
 package todo.ui;
 
-import pilot.VNode;
-import Pilot.html;
-import todo.data.*;
+import js.html.Event;
+import pilot.Component;
+import todo.data.Store;
+import todo.data.TodoFilter;
+import todo.data.Todo;
 
-abstract SiteFooter(VNode) to VNode {
+class SiteFooter extends Component {
   
-  public function new(props:{
-    store:Store
-  }) {
-    this = html(<footer class@style={
-      
+  @:attribute(inject = StoreProvider.ID) var store:Store;
+  @:attribute var todos:Array<Todo>;
+  @:attribute var filter:TodoFilter;
+
+  override function render() return html(<>
+    @if (todos.length > 0) <footer class={css('
+        
       padding: 10px 15px;
       height: 20px;
       text-align: center;
@@ -18,7 +22,7 @@ abstract SiteFooter(VNode) to VNode {
       border-top: 1px solid #e6e6e6;
 
       &:before {
-        content: '';
+        content: "";
         position: absolute;
         right: 0;
         bottom: 0;
@@ -36,12 +40,12 @@ abstract SiteFooter(VNode) to VNode {
         height: 50px;
       }
 
-    }>
-      <span class@style={
+    ')}>
+      <span class={css('
         float: left;
         text-align: left;
-      }>{remaining(props.store)}</span>
-      <ul class@style={
+      ')}>{remaining()}</span>
+      <ul class={css('
 
         margin: 0;
         padding: 0;
@@ -72,43 +76,44 @@ abstract SiteFooter(VNode) to VNode {
           }
         }
 
-      }>
+      ')}>
         <li>
           <a 
             href="#all"
-            class={getSelected(props.store, VisibleAll)}
-            onClick={e -> setFilter(props.store, e, VisibleAll)}
+            class={getSelected(FilterAll)}
+            onClick={e -> setFilter(e, FilterAll)}
           >All</a>
         </li>
         <li>
           <a 
             href="#pending"
-            class={getSelected(props.store, VisiblePending)}
-            onClick={e -> setFilter(props.store, e, VisiblePending)}
+            class={getSelected(FilterPending)}
+            onClick={e -> setFilter(e, FilterPending)}
           >Pending</a>
         </li>
         <li>
           <a 
             href="#completed"
-            class={getSelected(props.store, VisibleCompleted)}
-            onClick={e -> setFilter(props.store, e, VisibleCompleted)}
+            class={getSelected(FilterCompleted)}
+            onClick={e -> setFilter(e, FilterCompleted)}
           >Completed</a>
         </li>
       </ul>
       <button 
-        class@style={
+        class={css('
           float: right;
           position: relative;
           line-height: 20px;
           text-decoration: none;
           cursor: pointer;
-        }
-        onClick={_ -> props.store.clearCompleted()}
+        ')}
+        onClick={ _ -> store.clearCompleted() }
       >Clear completed</button>
-    </footer>);
-  }
+    </footer>
+  </>);
+
   
-  static function remaining(store:Store) {
+  function remaining() {
     return switch store.remainingTodos {
       case 0: 'No items left';
       case 1: '1 item left';
@@ -116,15 +121,13 @@ abstract SiteFooter(VNode) to VNode {
     }
   }
 
-  static function getSelected(store:Store, filter:VisibleTodos) {
-    return store.filter == filter ? 'selected' : null;
+  function getSelected(filter:TodoFilter) {
+    return this.filter == filter ? 'selected' : null;
   }
 
-  #if js
-    static function setFilter(store:Store, e:js.html.Event, filter:VisibleTodos) {
-      e.preventDefault();
-      store.filter = filter;
-    }
-  #end
+  function setFilter(e:Event, filter:TodoFilter) {
+    e.preventDefault();
+    store.filter = filter;
+  }
 
 }

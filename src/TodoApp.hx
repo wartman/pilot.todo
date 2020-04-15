@@ -4,6 +4,7 @@ import todo.ui.*;
 import todo.module.*;
 #if !nodejs
   import todo.client.TodoApi;
+  import pilot.platform.dom.Dom;
 #end
 
 class TodoApp {
@@ -33,14 +34,14 @@ class TodoApp {
       container.use(new ClientModule());
       var store = container.get(Store);
       var api = container.get(TodoApi);
-      Pilot.mount(
-        Pilot.document.getElementById('root'),
-        Pilot.html(<StoreProvider store={store}>
-          <ApiProvider api={api}>
-            <App />
-          </ApiProvider>
-        </StoreProvider>)
-      );
+      Dom.mount(
+        js.Browser.document.getElementById('root'),
+        Pilot.html(
+          <todo.ui.ApiProvider api={api}>
+            <App store={store} />
+          </todo.ui.ApiProvider>
+        )
+      ); 
     }
     
   #end

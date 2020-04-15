@@ -1,20 +1,14 @@
 package todo.ui;
 
 import pilot.Component;
-#if !nodejs
-  import todo.client.TodoApi;
-#end
 import todo.data.*;
 
 class TodoItem extends Component {
   
+  @:attribute(inject = StoreProvider.ID) var store:Store;
   @:attribute var todo:Todo;
-  // @:attribute(inject = StoreProvider.ID) var store:Store;
-  #if !nodejs
-    @:attribute(inject = ApiProvider.ID) var api:TodoApi;
-  #end
-  @:attribute(mutable = true) var editing:Bool = false;
-  @:style var root = '
+  @:attribute(state) var editing:Bool = false;
+  final root = css('
     position: relative;
     font-size: 24px;
     border-bottom: 1px solid #ededed;
@@ -75,55 +69,51 @@ class TodoItem extends Component {
     &:hover .destroy {
       display: block;
     }
-  ';
+  ');
+  final isSyncing = css('
+    opacity: 0.5;
+  ');
 
-  override function render() return html(<>
-    @if (editing) {
-      <li 
-        id={Std.string(todo.id)} 
-        key={todo}
-        class={root + ' editing'}
-      >
-        <TodoInput 
-          value={todo.content}
-          requestClose={ () -> editing = false }
-          save={value -> {
-            todo.content = value;
-            #if !nodejs
-              api.update(todo);
-            #end
-            editing = false;
-          }}
-        />
-      </li>;
-    } else {
-      <li 
+  override function render() {
+    return html(<>
+      @if (editing) 
+        <li 
+          id={todo.id} 
+          @key={(todo:Dynamic)}
+          class={root + ' editing'}
+        >
+          <TodoInput 
+            value={todo.content}
+            requestClose={ () -> editing = false }
+            save={value -> {
+              todo.content = value;
+              editing = false;
+            }}
+          />
+      </li> else <li 
         id={Std.string(todo.id)}
         onDblClick={e -> {
           e.preventDefault();
           e.stopPropagation();
           editing = true;
         }}
-        key={todo}
+        @key={(todo:Dynamic)}
         class={root}
       >
         <Toggle
           checked={todo.complete}
-          onClick={_ -> todo.complete = !todo.complete}
+          onClick={e -> {
+            e.stopPropagation();
+            todo.complete = !todo.complete;
+          }}
         />
         <label>{todo.content}</label>
         <button
           class="destroy"
-          onClick={_ -> {
-            #if (!nodejs)
-              api.remove(todo);
-            #else
-              null;
-            #end
-          }}
+          onClick={ _ -> store.removeTodo(todo) }
         ></button>
-      </li>;
-    }
-  </>);
+      </li>
+    </>);
+  }
 
 }

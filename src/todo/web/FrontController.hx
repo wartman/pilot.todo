@@ -13,11 +13,10 @@ class FrontController implements Root {
   }
 
   public function index():OutgoingResponse {
-    return new HtmlResult(Pilot.html(
-      <StoreProvider store={store}>
-        <App />
-      </StoreProvider>
-    ), store).toResponse();
+    return new HtmlResult(
+      Pilot.html(<App store={store} />), 
+      store
+    ).toResponse();
   }
 
   public function addTodo(body) {

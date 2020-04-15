@@ -21,23 +21,34 @@ class TodoApi {
   }
 
   public function add(todo:Todo) {
+    store.status = Loading;
     return remote.addTodo({ content: todo.content }).handle(res -> switch res {
-      case Success(_): store.addTodo(todo);
-      case Failure(e): trace(e);
+      case Success(_):
+        store.addTodo(todo);
+        store.status = Ready;
+      case Failure(e):
+        store.status = Failed(e.message);
     });
   }
 
   public function update(todo:Todo) {
+    store.status = Loading;
     return remote.updateTodo(todo.id, { content: todo.content }).handle(res -> switch res {
-      case Success(_): trace('ok');
-      case Failure(e): trace(e);
+      case Success(_):
+        store.status = Ready;
+      case Failure(e):
+        store.status = Failed(e.message);
     });
   }
   
   public function remove(todo:Todo) {
+    store.status = Loading;
     return remote.removeTodo(todo.id).handle(res -> switch res {
-      case Success(_): store.removeTodo(todo);
-      case Failure(e): trace(e);
+      case Success(_):
+        store.removeTodo(todo);
+        store.status = Ready;
+      case Failure(e): 
+        store.status = Failed(e.message);
     });
   }
 

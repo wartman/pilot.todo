@@ -1,12 +1,13 @@
 package todo.ui;
 
-import pilot.cargo.ReactiveComponent;
+import pilot.Component;
+import pilot.Cargo;
 import todo.data.Store;
 
-class App extends ReactiveComponent {
+class App extends Component {
 
-  @:attribute(inject = StoreProvider.ID) var store:Store;
-  @:style(global = true) var root = '
+  @:attribute var store:Store;
+  final rootStyle = css('
 
     html, body {
       margin: 0;
@@ -30,10 +31,10 @@ class App extends ReactiveComponent {
       outline: 0;
     }
 
-  ';
+  ', { global: true });
 
-  override function render() return html(
-    <div id="App" class@style={
+  override function render() return Cargo.observeHtml(
+    <div id="App" class={rootStyle.add(css('
       
       background: #fff;
       margin: 130px auto 40px;
@@ -64,14 +65,17 @@ class App extends ReactiveComponent {
         -moz-osx-font-smoothing: grayscale;
       }
 
-    }>
-      <SiteHeader />
-      @if (store.todos.length > 0) {
-        <>
-          <TodoList store={store} todos={store.visibleTodos} />
-          <SiteFooter store={store} />
-        </>;
-      }
+    '))}>
+      <StoreProvider store={store}>
+        @switch store.status {
+          case Ready: null;
+          case Loading: <Spinner />;
+          case Failed(_): null;
+        }
+        <SiteHeader />
+        <TodoList todos={store.visibleTodos} />
+        <SiteFooter todos={store.todos} filter={store.filter} />
+      </StoreProvider>
     </div>
   );
 

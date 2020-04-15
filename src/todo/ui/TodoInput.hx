@@ -1,6 +1,6 @@
 package todo.ui;
 
-import pilot.dom.Element;
+import js.html.Element;
 import pilot.Component;
 
 class TodoInput extends Component {
@@ -14,7 +14,7 @@ class TodoInput extends Component {
 
   override function render() {
     return html(
-      <div class@style={
+      <div class={css('
         
         input {
           position: relative;
@@ -40,7 +40,7 @@ class TodoInput extends Component {
           box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
         }
 
-      }>
+      ')}>
         <input
           @ref={node -> ref = cast node}
           class={inputClass}
@@ -48,13 +48,15 @@ class TodoInput extends Component {
           placeholder={placeholder}
           onClick={e -> e.stopPropagation()}
           onKeyDown={e -> {
-            var input:js.html.InputElement = cast e.target;
-            var keyboardEvent:js.html.KeyboardEvent = cast e;
-            if (keyboardEvent.key == 'Enter') {
-              save(input.value);
-              input.value = '';
-              input.blur();
-            }
+            #if (js && !nodejs)
+              var input:js.html.InputElement = cast e.target;
+              var keyboardEvent:js.html.KeyboardEvent = cast e;
+              if (keyboardEvent.key == 'Enter') {
+                save(input.value);
+                input.value = '';
+                input.blur();
+              }
+            #end
           }}
         />
       </div>

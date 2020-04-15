@@ -1,8 +1,8 @@
 package todo.ui;
 
+import js.html.Event;
 import pilot.VNode;
-import pilot.dom.Event;
-import Pilot.html;
+import Pilot.*;
 
 abstract ToggleAll(VNode) to VNode {
   
@@ -16,7 +16,7 @@ abstract ToggleAll(VNode) to VNode {
       checked={props.checked}
       id={props.id}
       onClick={props.onClick}
-      class@style={
+      class={css('
 
         width: 1px;
         height: 1px;
@@ -50,13 +50,13 @@ abstract ToggleAll(VNode) to VNode {
 
         /*
         Hack to remove background from Mobile Safari.
-        Can't use it globally since it destroys checkboxes in Firefox
+        Can\'t use it globally since it destroys checkboxes in Firefox
         */
         @media screen and (-webkit-min-device-pixel-ratio:0) {
           background: none;
         }
         
-      }
+      ')}
     />);
   }
 
