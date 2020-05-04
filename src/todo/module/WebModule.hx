@@ -8,7 +8,6 @@ import tink.http.Response;
 import tink.http.Handler;
 import tink.http.containers.*;
 import tink.web.routing.*;
-import todo.data.*;
 import todo.web.*;
 
 class WebModule implements ServiceProvider {
@@ -16,9 +15,7 @@ class WebModule implements ServiceProvider {
   public function new() {}
 
   public function register(container:DiContainer) {
-    container.map(Root).toFactory(function (store:Store) {
-      return new FrontController(store);
-    }).asShared();
+    container.map(Root).toClass(FrontController).asShared();
     container.map(Container).toFactory(function () {
       return new NodeContainer(8080);
     }).asShared();

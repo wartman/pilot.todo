@@ -1,11 +1,12 @@
 package todo.ui;
 
 import pilot.Component;
-import todo.data.*;
+import todo.state.TodoState;
+import todo.state.Todo;
 
 class TodoItem extends Component {
   
-  @:attribute(inject = StoreProvider.ID) var store:Store;
+  @:attribute(consume) var state:TodoState;
   @:attribute var todo:Todo;
   @:attribute(state) var editing:Bool = false;
   final root = css('
@@ -86,7 +87,7 @@ class TodoItem extends Component {
             value={todo.content}
             requestClose={ () -> editing = false }
             save={value -> {
-              todo.content = value;
+              state.updateTodo(todo.id, value, todo.complete);
               editing = false;
             }}
           />
@@ -104,13 +105,13 @@ class TodoItem extends Component {
           checked={todo.complete}
           onClick={e -> {
             e.stopPropagation();
-            todo.complete = !todo.complete;
+            state.toggleTodoComplete(todo);
           }}
         />
         <label>{todo.content}</label>
         <button
           class="destroy"
-          onClick={ _ -> store.removeTodo(todo) }
+          onClick={ _ -> state.removeTodo(todo) }
         ></button>
       </li>
     </>);

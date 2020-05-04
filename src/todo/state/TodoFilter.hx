@@ -1,4 +1,4 @@
-package todo.data;
+package todo.state;
 
 enum abstract TodoFilter(String) from String to String {
   var FilterAll;

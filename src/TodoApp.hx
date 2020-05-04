@@ -1,19 +1,18 @@
 import capsule.Container;
-import todo.data.Store;
-import todo.ui.*;
 import todo.module.*;
 #if !nodejs
-  import todo.client.TodoApi;
   import pilot.platform.dom.Dom;
 #end
 
 class TodoApp {
 
+  public static final DATA_NAME:String = haxe.macro.Compiler.getDefine('todo-data-name');
+
   #if nodejs
   
   static function main() {
     var container = new Container();
-    container.use(new DataModule());
+    container.use(new ApiModule(DATA_NAME));
     container.use(new WebModule());
 
     var handler = container.get(tink.http.Handler);
@@ -30,17 +29,12 @@ class TodoApp {
 
     static function main() {
       var container = new Container();
-      container.use(new DataModule());
-      container.use(new ClientModule());
-      var store = container.get(Store);
-      var api = container.get(TodoApi);
-      Dom.mount(
+      container.use(new ApiModule(DATA_NAME));
+      container.use(new UiModule());
+      var node = container.get(pilot.VNode, 'todo.ui.app');
+      Dom.hydrate(
         js.Browser.document.getElementById('root'),
-        Pilot.html(
-          <todo.ui.ApiProvider api={api}>
-            <App store={store} />
-          </todo.ui.ApiProvider>
-        )
+        node
       ); 
     }
     

@@ -2,13 +2,13 @@ package todo.ui;
 
 import js.html.Event;
 import pilot.Component;
-import todo.data.Store;
-import todo.data.TodoFilter;
-import todo.data.Todo;
+import todo.state.TodoState;
+import todo.state.TodoFilter;
+import todo.state.Todo;
 
 class SiteFooter extends Component {
   
-  @:attribute(inject = StoreProvider.ID) var store:Store;
+  @:attribute(consume) var state:TodoState;
   @:attribute var todos:Array<Todo>;
   @:attribute var filter:TodoFilter;
 
@@ -107,14 +107,14 @@ class SiteFooter extends Component {
           text-decoration: none;
           cursor: pointer;
         ')}
-        onClick={ _ -> store.clearCompleted() }
+        onClick={ _ -> state.clearCompleted() }
       >Clear completed</button>
     </footer>
   </>);
 
   
   function remaining() {
-    return switch store.remainingTodos {
+    return switch state.remainingTodos {
       case 0: 'No items left';
       case 1: '1 item left';
       case remaining: '${remaining} items left';
@@ -127,7 +127,7 @@ class SiteFooter extends Component {
 
   function setFilter(e:Event, filter:TodoFilter) {
     e.preventDefault();
-    store.filter = filter;
+    state.setFilter(filter);
   }
 
 }

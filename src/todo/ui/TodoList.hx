@@ -1,12 +1,12 @@
 package todo.ui;
 
 import pilot.Component;
-import todo.data.Todo;
-import todo.data.Store;
+import todo.state.Todo;
+import todo.state.TodoState;
 
 class TodoList extends Component {
   
-  @:attribute(inject = StoreProvider.ID) var store:Store;
+  @:attribute(consume) var state:TodoState;
   @:attribute var todos:Array<Todo>;
 
   override function render() return html(<>
@@ -16,12 +16,12 @@ class TodoList extends Component {
       border-top: 1px solid #e6e6e6;
     ')}>
       <ToggleAll
-        checked={store.allCompleted}
+        checked={state.allCompleted}
         id="toggle-all"
         onClick={e -> {
-          switch store.allCompleted {
-            case true: store.markAllPending();
-            case false: store.markAllComplete();
+          switch state.allCompleted {
+            case true: state.markAllPending();
+            case false: state.markAllComplete();
           }
         }}
       />
@@ -31,15 +31,8 @@ class TodoList extends Component {
         padding: 0;
         list-style: none;
       ')}>
-        @for (todo in todos) {
-          // note that we don't pass `store` here: instead,
-          // it's injected for us by `<StoreProvider /> in a 
-          // parent component.
-          //
-          // This is generally a bad idea, but just for illustration
-          // purposes.
-          <TodoItem todo={todo} />; 
-        }
+        @for (todo in todos)
+          <TodoItem todo={todo} />
       </ul>
     </div>
   </>);

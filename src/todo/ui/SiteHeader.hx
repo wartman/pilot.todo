@@ -1,11 +1,11 @@
 package todo.ui;
 
 import pilot.Component;
-import todo.data.*;
+import todo.state.TodoState;
 
 class SiteHeader extends Component {
 
-  @:attribute(inject = StoreProvider.ID) var store:Store;
+  @:attribute(consume) var state:TodoState;
 
   override function render() return html(
     <header class="todo-header">
@@ -24,7 +24,7 @@ class SiteHeader extends Component {
       <TodoInput
         inputClass="new-todo"
         value=""
-        save={ value -> store.addTodo(new Todo({ content: value })) }
+        save={ value -> state.addTodo(value) }
       />
     </header>
   );

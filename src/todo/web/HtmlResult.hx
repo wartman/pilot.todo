@@ -3,26 +3,26 @@ package todo.web;
 import pilot.VNode;
 import pilot.platform.server.Server;
 import tink.http.Response;
-import todo.data.Store;
-import todo.data.Res;
+import todo.state.TodoApi;
 
 using haxe.Json;
 
 abstract HtmlResult(OutgoingResponse) to OutgoingResponse {
 
-  public inline function new(vNode:VNode, store:Store) {
+  public inline function new(vNode:VNode, dataName:String, api:TodoApi) {
     var content = Server.renderDocument(
       Pilot.html(<>
         <title>Todos</title>
         <link href='assets/app.css' rel='stylesheet' />
-        <script id={Res.DATA_NAME}>
-          { 'window["' + Res.DATA_NAME + '"] = ' + store.toJson().stringify() }
+        <script id={dataName}>
+          { 'window["' + dataName + '"] = ' + ({
+            todos: api.getTodos().map(t -> t.toJson())
+          }).stringify() }
         </script>
       </>),
       Pilot.html(<>
         <div id='root'>
-          // // todo: leaving this blank until we add hydration back in
-          // {vNode}
+          {vNode}
         </div>
         <script src='assets/app.js' />
       </>)

@@ -1,6 +1,6 @@
-package todo.data;
+package todo.state;
 
-enum ApiStatus {
+enum SiteStatus {
   Ready;
   Loading;
   Failed(reason:String);

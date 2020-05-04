@@ -1,5 +1,4 @@
 -lib pilot
--lib pilot.cargo
 -lib capsule
 -lib tink_web
 
@@ -20,7 +19,6 @@
 --next
 
 -D pilot-css-output=assets/app.css
--D pilot-cargo-constant
 
 -lib hxnodejs
 -lib nodom

@@ -1,12 +1,11 @@
 package todo.ui;
 
 import pilot.Component;
-import pilot.Cargo;
-import todo.data.Store;
+import todo.state.TodoState;
 
 class App extends Component {
-
-  @:attribute var store:Store;
+ 
+  @:attribute(consume) var state:TodoState;
   final rootStyle = css('
 
     html, body {
@@ -33,7 +32,7 @@ class App extends Component {
 
   ', { global: true });
 
-  override function render() return Cargo.observeHtml(
+  override function render() return html(
     <div id="App" class={rootStyle.add(css('
       
       background: #fff;
@@ -66,16 +65,14 @@ class App extends Component {
       }
 
     '))}>
-      <StoreProvider store={store}>
-        @switch store.status {
-          case Ready: null;
-          case Loading: <Spinner />;
-          case Failed(_): null;
-        }
-        <SiteHeader />
-        <TodoList todos={store.visibleTodos} />
-        <SiteFooter todos={store.todos} filter={store.filter} />
-      </StoreProvider>
+      @switch state.status {
+        case Ready: null;
+        case Loading: <Spinner />;
+        case Failed(_): null;
+      }
+      <SiteHeader />
+      <TodoList todos={state.visibleTodos} />
+      <SiteFooter todos={state.todos} filter={state.filter} />
     </div>
   );
 

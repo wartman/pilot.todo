@@ -52,9 +52,10 @@ class TodoInput extends Component {
               var input:js.html.InputElement = cast e.target;
               var keyboardEvent:js.html.KeyboardEvent = cast e;
               if (keyboardEvent.key == 'Enter') {
-                save(input.value);
+                var value = input.value;
                 input.value = '';
                 input.blur();
+                save(value);
               }
             #end
           }}
@@ -80,7 +81,7 @@ class TodoInput extends Component {
     function cleanup() {
       js.Browser.window.removeEventListener('click', clickOff);
     }
-  
+
   #end
 
 }
