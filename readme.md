@@ -12,7 +12,6 @@ Right now it *sorta* works -- todos will be persisted in a json file between upd
 
 Other libraries used:
 
-- [Pilot Cargo](https://github.com/wartman/pilot.cargo) (for data)
 - [Capsule](https://github.com/wartman/capsule) (for dependency injection)
 - [Tink Web](https://github.com/haxetink/tink_web) (for web stuff)
 - [Tink](https://github.com/haxetink) (for basically everything, because it is cool)
