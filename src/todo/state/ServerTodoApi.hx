@@ -27,7 +27,10 @@ class ServerTodoApi implements TodoApi {
   }
 
   public function addTodo(content:String):Promise<Todo> {
-    var todo = new Todo(content, data.length);
+    var id = data.length > 0
+      ? data[ data.length - 1 ].id + 1
+      : 0;
+    var todo = new Todo(content, id);
     data.push(todo.toJson());
     persist(data);
     return todo;

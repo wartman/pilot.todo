@@ -10,20 +10,20 @@ class TodoApp {
 
   #if nodejs
   
-  static function main() {
-    var container = new Container();
-    container.use(new ApiModule(DATA_NAME));
-    container.use(new WebModule());
+    static function main() {
+      var container = new Container();
+      container.use(new ApiModule(DATA_NAME));
+      container.use(new WebModule());
 
-    var handler = container.get(tink.http.Handler);
-    var middlewares = container.get('Array<tink.http.Middleware>');
-    
-    for (m in middlewares) {
-      handler = handler.applyMiddleware(m);
+      var handler = container.get(tink.http.Handler);
+      var middlewares = container.get('Array<tink.http.Middleware>');
+      
+      for (m in middlewares) {
+        handler = handler.applyMiddleware(m);
+      }
+
+      container.get(tink.http.Container).run(handler); 
     }
-
-    container.get(tink.http.Container).run(handler); 
-  }
 
   #else
 
