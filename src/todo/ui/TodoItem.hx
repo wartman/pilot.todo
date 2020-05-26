@@ -91,7 +91,7 @@ class TodoItem extends Component {
               editing = false;
             }}
           />
-      </li> else <li 
+      </li> @else <li 
         id={Std.string(todo.id)}
         onDblClick={e -> {
           e.preventDefault();
