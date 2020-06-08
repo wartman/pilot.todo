@@ -6,34 +6,9 @@ import todo.state.TodoState;
 class App extends Component {
  
   @:attribute(consume) var state:TodoState;
-  final rootStyle = css('
-
-    html, body {
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
-      line-height: 1.4em;
-      background: ${Color.secondary};
-      color: ${Color.primary};
-      min-width: 230px;
-      max-width: 550px;
-      margin: 0 auto;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      font-weight: 300;
-    }
-
-    :focus {
-      outline: 0;
-    }
-
-  ', { global: true });
 
   override function render() return html(
-    <div id="App" class={rootStyle.add(css('
+    <div id="App" class={css('
       
       background: #fff;
       margin: 130px auto 40px;
@@ -64,7 +39,33 @@ class App extends Component {
         -moz-osx-font-smoothing: grayscale;
       }
 
-    '))}>
+      @global {
+        
+        html, body {
+          margin: 0;
+          padding: 0;
+        }
+
+        body {
+          font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+          line-height: 1.4em;
+          background: ${Color.secondary};
+          color: ${Color.primary};
+          min-width: 230px;
+          max-width: 550px;
+          margin: 0 auto;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          font-weight: 300;
+        }
+
+        :focus {
+          outline: 0;
+        }
+
+      }
+
+    ')}>
       @switch state.status {
         case Ready: null;
         case Loading: <Spinner />;
